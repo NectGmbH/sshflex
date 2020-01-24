@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: example
+  namespace: sshflex
+type: 'nect.com/sshflex'
+stringData:
+  password: 'SomeVerySecretSSHPassword'
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  namespace: sshflex
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    command: [ "/bin/sh", "-c", "--" ]
+    args: [ "while true; do sleep 60; done;" ]
+    volumeMounts:
+    - name: test
+      mountPath: /data
+    ports:
+    - containerPort: 80
+  volumes:
+  - name: test
+    flexVolume:
+      driver: "nect.com/sshflex"
+      secretRef:
+        name: example
+      options:
+        host: 'some-host.org'
+        port: '22'
+        path: './some/remote/path/'
+        user: 'username'

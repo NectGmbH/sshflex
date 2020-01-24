@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: sshflex
+  namespace: sshflex
+spec:
+  template:
+    metadata:
+      name: sshflex
+      namespace: sshflex
+      labels:
+        app: sshflex
+    spec:
+      containers:
+        - image: kavatech/sshflex:v0.0.1
+          imagePullPolicy: Always
+          name: sshflex
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - mountPath: /flexmnt
+              name: flexvolume-mount
+      volumes:
+        - name: flexvolume-mount
+          hostPath:
+            path: /usr/libexec/kubernetes/kubelet-plugins/volume/exec/
