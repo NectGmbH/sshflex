@@ -12,7 +12,7 @@ spec:
         app: sshflex
     spec:
       containers:
-        - image: kavatech/sshflex:v0.0.1
+        - image: kavatech/sshflex:v0.0.2
           imagePullPolicy: Always
           name: sshflex
           securityContext:
